@@ -193,3 +193,131 @@ func lengthOfLongestSubstring(s string) int {
 	}
 	return length
 }
+
+/*
+给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的 中位数 。
+算法的时间复杂度应该为 O(log (m+n)) 。
+
+示例 1：
+输入：nums1 = [1,3], nums2 = [2]
+输出：2.00000
+解释：合并数组 = [1,2,3] ，中位数 2
+
+示例 2：
+输入：nums1 = [1,2], nums2 = [3,4]
+输出：2.50000
+解释：合并数组 = [1,2,3,4] ，中位数 (2 + 3) / 2 = 2.5
+
+示例 3：
+输入：nums1 = [0,0], nums2 = [0,0]
+输出：0.00000
+
+示例 4：
+输入：nums1 = [], nums2 = [1]
+输出：1.00000
+
+示例 5：
+输入：nums1 = [2], nums2 = []
+输出：2.00000
+
+提示：
+nums1.length == m
+nums2.length == n
+0 <= m <= 1000
+0 <= n <= 1000
+1 <= m + n <= 2000
+-106 <= nums1[i], nums2[i] <= 106
+*/
+func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
+	var (
+		l1         = len(nums1)
+		l2         = len(nums2)
+		num        = (l1 + l2) / 2
+		mid1, mid2 int
+		i1, i2     int
+	)
+
+	if num == 0 {
+		if len(nums1) > 0 {
+			return float64(nums1[0])
+		} else if len(nums2) > 0 {
+			return float64(nums2[0])
+		} else {
+			return 0
+		}
+	}
+
+	for i := 0; i <= num; i++ {
+		var value int
+		if i1 < l1 && i2 < l2 {
+			if nums1[i1] > nums2[i2] {
+				value = nums2[i2]
+				i2++
+			} else {
+				value = nums1[i1]
+				i1++
+			}
+		} else if i1 >= l1 {
+			value = nums2[i2]
+			i2++
+		} else if i2 >= l2 {
+			value = nums1[i1]
+			i1++
+		}
+
+		if i%2 != 0 {
+			mid1 = value
+		} else {
+			mid2 = value
+		}
+	}
+	if (l1+l2)%2 > 0 {
+		if mid1 > mid2 {
+			return float64(mid1)
+		} else {
+			return float64(mid2)
+		}
+	} else {
+		return float64((mid1 + mid2)) / 2.0
+	}
+}
+
+/*
+给你一个字符串 s，找到 s 中最长的回文子串。
+
+示例 1：
+输入：s = "babad"
+输出："bab"
+解释："aba" 同样是符合题意的答案。
+
+示例 2：
+输入：s = "cbbd"
+输出："bb"
+
+示例 3：
+输入：s = "a"
+输出："a"
+
+示例 4：
+输入：s = "ac"
+输出："a"
+
+提示：
+1 <= s.length <= 1000
+s 仅由数字和英文字母（大写和/或小写）组成
+*/
+func longestPalindrome(s string) string {
+	var (
+		keys = make(map[rune]int)
+		out  string
+	)
+	for right, v := range s {
+		if i, ok := keys[v]; ok {
+			if right-i > len(out)-1 {
+				out = s[i : right+1]
+			}
+		}
+		keys[v] = right
+	}
+	return out
+}
