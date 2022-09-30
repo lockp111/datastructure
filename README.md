@@ -1,10 +1,11 @@
 # Datastructure
-These are some data structures that have been sorted out for other projects to import
+These are some data structures that have been sorted out for other projects to import.
 
 ### Feature
+- [x] Support generics
 - [x] List
 - [x] Heap
-- [ ] Ring
+- [x] Ring
 - [ ] Hashring
 - [ ] BTree
 - [ ] AVLTree
