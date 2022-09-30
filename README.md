@@ -3,7 +3,7 @@ These are some data structures that have been sorted out for other projects to i
 
 ### Feature
 - [x] List
-- [ ] Heap
+- [x] Heap
 - [ ] Ring
 - [ ] Hashring
 - [ ] BTree
