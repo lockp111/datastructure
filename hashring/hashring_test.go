@@ -37,7 +37,7 @@ var sortNodes = []node{
 	{key: "4", value: 4},
 }
 
-func TestHashringGet(t *testing.T) {
+func TestHashRingGet(t *testing.T) {
 	ring := hashring.New[node]()
 	ring.Add(nodeList...)
 
@@ -56,7 +56,7 @@ func TestHashringGet(t *testing.T) {
 	}
 }
 
-func TestHashringRemove(t *testing.T) {
+func TestHashRingRemove(t *testing.T) {
 	ring := hashring.New[node]()
 	ring.Add(nodeList...)
 
