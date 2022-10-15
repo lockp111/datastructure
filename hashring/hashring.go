@@ -5,7 +5,7 @@ import (
 	"sort"
 )
 
-type HashRing[T ISlot] struct {
+type HashRing[T any] struct {
 	slotMap map[uint32]Slot[T]
 	slots   []uint32
 }
@@ -19,7 +19,7 @@ func Hash(key string) uint32 {
 	return crc32.ChecksumIEEE([]byte(key))
 }
 
-func New[T ISlot]() *HashRing[T] {
+func New[T any]() *HashRing[T] {
 	return &HashRing[T]{slotMap: make(map[uint32]Slot[T]), slots: make([]uint32, 0, 2048)}
 }
 
@@ -99,30 +99,6 @@ func (h *HashRing[T]) Remove(key string) {
 	index := h.find(hashed)
 	h.slots = append(h.slots[:index], h.slots[index+1:]...)
 	delete(h.slotMap, hashed)
-}
-
-// BatchRemove slots
-func (h *HashRing[T]) BatchRemove(keys []string) {
-	begin := 0
-	for _, key := range keys {
-		hashed := Hash(key)
-		_, ok := h.slotMap[hashed]
-		if !ok {
-			continue
-		}
-		if len(h.slots) == 1 {
-			h.slotMap = make(map[uint32]Slot[T])
-			h.slots = make([]uint32, 0, 2048)
-			return
-		}
-
-		delete(h.slotMap, hashed)
-		index := h.find(hashed)
-		h.slots[begin], h.slots[index] = h.slots[index], h.slots[begin]
-		begin++
-	}
-	h.slots = h.slots[begin:]
-	sort.Sort(h)
 }
 
 // ForEach hashring
