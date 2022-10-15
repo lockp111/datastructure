@@ -6,7 +6,7 @@ These are some data structures that have been sorted out for other projects to i
 - [x] List
 - [x] Heap
 - [x] Ring
-- [ ] Hashring
+- [x] Hashring
 - [ ] BTree
 - [ ] AVLTree
 - [ ] RBTree
